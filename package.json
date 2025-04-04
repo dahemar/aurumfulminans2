@@ -1,0 +1,15 @@
+{
+  "name": "aurumfulminans",
+  "version": "1.0.0",
+  "description": "Una elegante tienda en línea para joyas artesanales, construida con HTML, CSS y Snipcart para el manejo del carrito de compras y pagos.",
+  "main": "mobile-menu.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@netlify/functions": "^3.0.4"
+  }
+}

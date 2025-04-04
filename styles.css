@@ -1,0 +1,458 @@
+/* Variables */
+:root {
+    --primary-color: #000;
+    --secondary-color: #666;
+    --text-color: #333;
+    --background-color: #fff;
+    --gray-light: #f5f5f5;
+    --gray-medium: #e0e0e0;
+    --accent-color: #000;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 8rem;
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Telex', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-style: italic;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Header and navigation */
+#headerWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--gray-medium);
+    padding: var(--spacing-sm) 0;
+}
+
+#header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo {
+    text-align: center;
+}
+
+#logo h1 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+}
+
+#logo a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* Navigation */
+#topNav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: var(--spacing-md);
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav a {
+    font-family: 'EB Garamond', serif;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: var(--secondary-color);
+}
+
+#mobileNav {
+    display: none;
+}
+
+#mobileMenuLink {
+    display: none;
+}
+
+/* Sections */
+.product-section, .about-section, .contact-section {
+    padding: var(--spacing-xl) 0;
+    border-bottom: 1px solid var(--gray-medium);
+}
+
+.product-section {
+    padding: 0 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-section h2, .about-section h2, .contact-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+/* Contact */
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.contact-links a {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.contact-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Main content */
+#pageWrapper {
+    margin-top: 80px;
+    padding: var(--spacing-xl) 0;
+}
+
+.sqs-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+.sqs-block-image-figure {
+    margin: 0;
+}
+
+.sqs-block-image-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Footer */
+#footerWrapper {
+    border-top: 1px solid var(--gray-medium);
+    padding: var(--spacing-lg) 0;
+    margin-top: var(--spacing-xl);
+}
+
+#footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#footer a, #footer p {
+    font-family: 'Telex', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+}
+
+#footer a {
+    font-family: 'EB Garamond', serif;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+}
+
+#footer a:hover {
+    color: var(--secondary-color);
+}
+
+/* Product Cards */
+.product-card {
+    background: var(--background-color);
+    border: 1px solid var(--gray-medium);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.product-card:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.product-card h3 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.price {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+}
+
+.description {
+    font-family: 'Telex', sans-serif;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+}
+
+.snipcart-add-item {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.snipcart-add-item:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Cart Button */
+.snipcart-checkout {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+.snipcart-checkout:hover {
+    color: var(--accent-color);
+}
+
+.snipcart-checkout svg {
+    width: 24px;
+    height: 24px;
+}
+
+.snipcart-items-count {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+
+    #topNav {
+        display: none;
+    }
+
+    #mobileNav {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--background-color);
+        padding: var(--spacing-sm);
+        z-index: 1000;
+    }
+
+    #mobileMenuLink {
+        display: block;
+        position: fixed;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        z-index: 1001;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .product-image {
+        height: 300px;
+    }
+
+    .product-section {
+        padding: 0 1rem 2rem;
+    }
+}
+
+.logo-image {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.price, .snipcart-add-item, .snipcart-checkout, .contact-links a {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+}
+
+#logo h1 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+}
+
+.product-card h3 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.description {
+    font-family: 'Telex', sans-serif;
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: var(--spacing-xs) 0;
+}
+
+#footer a, #footer p {
+    font-family: 'Telex', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 1rem 0;
+    background-color: var(--background-color);
+    min-height: 80vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.hero-content {
+    text-align: center;
+    margin-top: 0;
+}
+
+.hero-logo {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 0.5rem 0;
+        min-height: 60vh;
+        padding-top: 0.5rem;
+    }
+
+    .hero-logo {
+        max-width: 300px;
+    }
+} 
