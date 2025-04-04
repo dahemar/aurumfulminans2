@@ -135,8 +135,17 @@
         addToCartButton.addEventListener('click', (e) => {
             e.preventDefault();
             
-            if (!sizeSelect.value || !materialSelect.value) {
-                alert('Please select both size and material');
+            // Verificar solo las opciones que están visibles
+            const sizeGroup = sizeSelect.closest('.option-group');
+            const materialGroup = materialSelect.closest('.option-group');
+            
+            if (sizeGroup.style.display !== 'none' && !sizeSelect.value) {
+                alert('Please select a size');
+                return;
+            }
+            
+            if (materialGroup.style.display !== 'none' && !materialSelect.value) {
+                alert('Please select a material');
                 return;
             }
 
@@ -149,10 +158,16 @@
             tempButton.setAttribute('data-item-description', addToCartButton.getAttribute('data-item-description'));
             tempButton.setAttribute('data-item-image', addToCartButton.getAttribute('data-item-image'));
             tempButton.setAttribute('data-item-name', addToCartButton.getAttribute('data-item-name'));
-            tempButton.setAttribute('data-item-custom1-name', 'Size');
-            tempButton.setAttribute('data-item-custom1-value', sizeSelect.value);
-            tempButton.setAttribute('data-item-custom2-name', 'Material');
-            tempButton.setAttribute('data-item-custom2-value', materialSelect.value);
+            
+            // Solo agregar las opciones personalizadas si existen
+            if (sizeGroup.style.display !== 'none') {
+                tempButton.setAttribute('data-item-custom1-name', 'Size');
+                tempButton.setAttribute('data-item-custom1-value', sizeSelect.value);
+            }
+            if (materialGroup.style.display !== 'none') {
+                tempButton.setAttribute('data-item-custom2-name', 'Material');
+                tempButton.setAttribute('data-item-custom2-value', materialSelect.value);
+            }
 
             // Append the button to the form and click it
             form.appendChild(tempButton);
@@ -206,23 +221,35 @@
 
                     // Actualizar las opciones de tamaño
                     const sizeSelect = document.getElementById('size');
-                    sizeSelect.innerHTML = '<option value="">Select size</option>';
-                    product.size_options.forEach(size => {
-                        const option = document.createElement('option');
-                        option.value = size.toLowerCase();
-                        option.textContent = size;
-                        sizeSelect.appendChild(option);
-                    });
+                    const sizeGroup = sizeSelect.closest('.option-group');
+                    if (product.size_options && product.size_options.length > 0) {
+                        sizeSelect.innerHTML = '<option value="">Select size</option>';
+                        product.size_options.forEach(size => {
+                            const option = document.createElement('option');
+                            option.value = size.toLowerCase();
+                            option.textContent = size;
+                            sizeSelect.appendChild(option);
+                        });
+                        sizeGroup.style.display = 'block';
+                    } else {
+                        sizeGroup.style.display = 'none';
+                    }
 
                     // Actualizar las opciones de material
                     const materialSelect = document.getElementById('material');
-                    materialSelect.innerHTML = '<option value="">Select material</option>';
-                    product.material_options.forEach(material => {
-                        const option = document.createElement('option');
-                        option.value = material.toLowerCase();
-                        option.textContent = material;
-                        materialSelect.appendChild(option);
-                    });
+                    const materialGroup = materialSelect.closest('.option-group');
+                    if (product.material_options && product.material_options.length > 0) {
+                        materialSelect.innerHTML = '<option value="">Select material</option>';
+                        product.material_options.forEach(material => {
+                            const option = document.createElement('option');
+                            option.value = material.toLowerCase();
+                            option.textContent = material;
+                            materialSelect.appendChild(option);
+                        });
+                        materialGroup.style.display = 'block';
+                    } else {
+                        materialGroup.style.display = 'none';
+                    }
 
                     // Actualizar el botón de Add to Cart
                     const addToCartButton = document.querySelector('.add-to-cart-button');
@@ -231,8 +258,16 @@
                     addToCartButton.setAttribute('data-item-name', product.nombre);
                     addToCartButton.setAttribute('data-item-description', product.descripcion);
                     addToCartButton.setAttribute('data-item-image', product.imagen);
-                    addToCartButton.setAttribute('data-item-custom1-options', product.size_options.join('|'));
-                    addToCartButton.setAttribute('data-item-custom2-options', product.material_options.join('|'));
+                    
+                    // Solo agregar las opciones personalizadas si existen
+                    if (product.size_options && product.size_options.length > 0) {
+                        addToCartButton.setAttribute('data-item-custom1-name', 'Size');
+                        addToCartButton.setAttribute('data-item-custom1-options', product.size_options.join('|'));
+                    }
+                    if (product.material_options && product.material_options.length > 0) {
+                        addToCartButton.setAttribute('data-item-custom2-name', 'Material');
+                        addToCartButton.setAttribute('data-item-custom2-options', product.material_options.join('|'));
+                    }
                 })
                 .catch(error => {
                     console.error('Error loading product details:', error);
