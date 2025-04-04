@@ -76,8 +76,6 @@
                         <label for="material">Material</label>
                         <select id="material" name="material" required>
                             <option value="">Select material</option>
-                            <option value="silver">Silver</option>
-                            <option value="gold">Gold</option>
                         </select>
                     </div>
 
@@ -90,8 +88,7 @@
                         data-item-name="Ejemplo 1"
                         data-item-custom1-name="Size"
                         data-item-custom1-options="Small|Medium|Large"
-                        data-item-custom2-name="Material"
-                        data-item-custom2-options="Silver|Gold">
+                        data-item-custom2-name="Material">
                         Add to Cart
                     </button>
                 </form>
@@ -176,7 +173,7 @@
             const spreadsheetId = '1KzIPpJlIy0YNEHt1_zh21rVUg-d1RaV05rf81VSsozk';
             const apiKey = 'AIzaSyDvjzmmIBerLK4rIiXZbwGsQrzYVPT42m4';
             
-            fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Products!A2:H?key=${apiKey}`)
+            fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Products!A2:I?key=${apiKey}`)
                 .then(response => response.json())
                 .then(data => {
                     const products = data.values.map(row => ({
@@ -198,26 +195,16 @@
                         return;
                     }
 
-                    // Actualizar la información del producto en la página
+                    // Actualizar la información del producto
                     document.querySelector('.product-title').textContent = product.nombre;
                     document.querySelector('.product-price').textContent = `$${product.precio}`;
                     document.querySelector('.product-description').textContent = product.descripcion;
-                    
-                    // Actualizar imágenes
-                    const mainImage = document.getElementById('mainImage');
-                    const thumbnails = document.querySelectorAll('.thumbnail');
-                    
-                    mainImage.src = product.imagen;
-                    mainImage.alt = product.nombre;
-                    
-                    thumbnails[0].src = product.imagen;
-                    thumbnails[0].alt = `${product.nombre} - Vista 1`;
-                    thumbnails[1].src = product.imagen_alt1;
-                    thumbnails[1].alt = `${product.nombre} - Vista 2`;
-                    thumbnails[2].src = product.imagen_alt2;
-                    thumbnails[2].alt = `${product.nombre} - Vista 3`;
+                    document.getElementById('mainImage').src = product.imagen;
+                    document.querySelectorAll('.thumbnail')[0].src = product.imagen;
+                    document.querySelectorAll('.thumbnail')[1].src = product.imagen_alt1;
+                    document.querySelectorAll('.thumbnail')[2].src = product.imagen_alt2;
 
-                    // Actualizar opciones de tamaño
+                    // Actualizar las opciones de tamaño
                     const sizeSelect = document.getElementById('size');
                     sizeSelect.innerHTML = '<option value="">Select size</option>';
                     product.size_options.forEach(size => {
@@ -227,7 +214,7 @@
                         sizeSelect.appendChild(option);
                     });
 
-                    // Actualizar opciones de material
+                    // Actualizar las opciones de material
                     const materialSelect = document.getElementById('material');
                     materialSelect.innerHTML = '<option value="">Select material</option>';
                     product.material_options.forEach(material => {
@@ -237,7 +224,7 @@
                         materialSelect.appendChild(option);
                     });
 
-                    // Actualizar botón de Snipcart
+                    // Actualizar el botón de Add to Cart
                     const addToCartButton = document.querySelector('.add-to-cart-button');
                     addToCartButton.setAttribute('data-item-id', product.id);
                     addToCartButton.setAttribute('data-item-price', product.precio);
@@ -249,11 +236,10 @@
                 })
                 .catch(error => {
                     console.error('Error loading product details:', error);
-                    window.location.href = 'index.html';
                 });
         }
 
-        // Cargar detalles del producto cuando la página esté lista
+        // Cargar los detalles del producto cuando la página esté lista
         document.addEventListener('DOMContentLoaded', loadProductDetails);
     </script>
 </body>
