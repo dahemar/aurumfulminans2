@@ -88,3 +88,51 @@ Este sitio web es estático y puede ser desplegado en cualquier servicio de host
 ## Licencia
 
 Todos los derechos reservados © 2024 Aurumfulminans
+
+# Aurumfulminans Website
+
+## Gestión de Productos
+
+Para añadir o modificar productos en el sitio web, sigue estos pasos:
+
+1. **Editar el archivo products.json**
+   - Abre el archivo `products.json` en un editor de texto
+   - Sigue el mismo formato que los productos existentes
+   - Cada producto debe tener:
+     ```json
+     {
+         "id": "identificador-unico",
+         "name": "Nombre del Producto",
+         "price": "99.99",
+         "description": "Descripción del producto",
+         "image": "images/nombre-imagen.jpg",
+         "altImages": [
+             "images/nombre-imagen-alt1.jpg",
+             "images/nombre-imagen-alt2.jpg"
+         ],
+         "details": [
+             "Detalle 1",
+             "Detalle 2",
+             "Detalle 3"
+         ]
+     }
+     ```
+
+2. **Subir imágenes**
+   - Sube las imágenes a la carpeta `images/`
+   - Usa el mismo formato de nombres:
+     - Imagen principal: `nombre-imagen.jpg`
+     - Imágenes alternativas: `nombre-imagen-alt1.jpg`, `nombre-imagen-alt2.jpg`
+
+3. **Verificar cambios**
+   - Los cambios se reflejarán automáticamente al actualizar la página
+   - Asegúrate de que todas las rutas de imágenes sean correctas
+
+## Notas importantes
+- Mantén el formato JSON correcto (usar comillas dobles, comas, etc.)
+- Los precios deben estar en formato de texto con dos decimales
+- Las rutas de las imágenes deben ser relativas a la carpeta `images/`
+- No modifiques la estructura básica del archivo JSON
+
+## Soporte
+Si necesitas ayuda o tienes alguna pregunta, contacta con el equipo de soporte.

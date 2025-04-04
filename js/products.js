@@ -1,13 +1,9 @@
-// Google Sheets API configuration
-const SPREADSHEET_ID = 'TU_SPREADSHEET_ID'; // Reemplazar con el ID real
-const API_KEY = 'TU_API_KEY'; // Reemplazar con la API key real
-
-// Function to fetch products from Google Sheets
+// Function to fetch products from JSON file
 async function fetchProducts() {
     try {
-        const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/Products!A2:H?key=${API_KEY}`);
+        const response = await fetch('products.json');
         const data = await response.json();
-        return data.values || [];
+        return data.products || [];
     } catch (error) {
         console.error('Error fetching products:', error);
         return [];
@@ -21,17 +17,17 @@ function renderProducts(products) {
 
     productsContainer.innerHTML = products.map(product => `
         <div class="product-card">
-            <img src="${product[4]}" alt="${product[1]}" class="product-image">
-            <h3>${product[1]}</h3>
-            <p class="price">$${product[2]}</p>
-            <p class="description">${product[3]}</p>
+            <img src="${product.image}" alt="${product.name}" class="product-image">
+            <h3>${product.name}</h3>
+            <p class="price">$${product.price}</p>
+            <p class="description">${product.description}</p>
             <button class="snipcart-add-item"
-                data-item-id="${product[0]}"
-                data-item-price="${product[2]}"
+                data-item-id="${product.id}"
+                data-item-price="${product.price}"
                 data-item-url="/"
-                data-item-description="${product[3]}"
-                data-item-image="${product[4]}"
-                data-item-name="${product[1]}">
+                data-item-description="${product.description}"
+                data-item-image="${product.image}"
+                data-item-name="${product.name}">
                 Add to Cart
             </button>
         </div>

@@ -1,0 +1,55 @@
+{
+    "products": [
+        {
+            "id": "product1",
+            "name": "Ejemplo 1",
+            "price": "89.00",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "image": "images/product1.jpg",
+            "altImages": [
+                "images/product1-alt1.jpg",
+                "images/product1-alt2.jpg"
+            ],
+            "details": [
+                "Lorem ipsum dolor sit amet",
+                "Consectetur adipiscing elit",
+                "Sed do eiusmod tempor",
+                "Incididunt ut labore"
+            ]
+        },
+        {
+            "id": "product2",
+            "name": "Ejemplo 2",
+            "price": "75.00",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "image": "images/product2.jpg",
+            "altImages": [
+                "images/product2-alt1.jpg",
+                "images/product2-alt2.jpg"
+            ],
+            "details": [
+                "Lorem ipsum dolor sit amet",
+                "Consectetur adipiscing elit",
+                "Sed do eiusmod tempor",
+                "Incididunt ut labore"
+            ]
+        },
+        {
+            "id": "product3",
+            "name": "Ejemplo 3",
+            "price": "120.00",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "image": "images/product3.jpg",
+            "altImages": [
+                "images/product3-alt1.jpg",
+                "images/product3-alt2.jpg"
+            ],
+            "details": [
+                "Lorem ipsum dolor sit amet",
+                "Consectetur adipiscing elit",
+                "Sed do eiusmod tempor",
+                "Incididunt ut labore"
+            ]
+        }
+    ]
+} 
