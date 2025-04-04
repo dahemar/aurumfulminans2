@@ -68,9 +68,37 @@
 
     <div id="pageWrapper">
         <section id="products" class="product-section">
-            <h2>Our Products</h2>
-            <div class="product-grid" id="productGrid">
-                <!-- Products will be loaded here by JavaScript -->
+            <div class="sqs-layout sqs-grid-12 columns-12">
+                <div class="row sqs-row">
+                    <div class="col sqs-col-12 span-12">
+                        <h2>Products</h2>
+                        <div class="product-grid">
+                            <!-- Product 1 -->
+                            <a href="product-detail.html" class="product-card">
+                                <img src="images/product1.jpg" alt="Ejemplo 1" class="product-image">
+                                <h3>Ejemplo 1</h3>
+                                <p class="price">$89.00</p>
+                                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </a>
+
+                            <!-- Product 2 -->
+                            <a href="product-detail.html" class="product-card">
+                                <img src="images/product2.jpg" alt="Ejemplo 2" class="product-image">
+                                <h3>Ejemplo 2</h3>
+                                <p class="price">$75.00</p>
+                                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </a>
+
+                            <!-- Product 3 -->
+                            <a href="product-detail.html" class="product-card">
+                                <img src="images/product3.jpg" alt="Ejemplo 3" class="product-image">
+                                <h3>Ejemplo 3</h3>
+                                <p class="price">$120.00</p>
+                                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -112,38 +140,5 @@
             <a href="#page">Back to top</a>
         </footer>
     </div>
-
-    <script src="https://cdn.snipcart.com/themes/v3.3.1/default/snipcart.js"></script>
-    <script>
-        // Load products from markdown files
-        fetch('/.netlify/functions/getProducts')
-            .then(response => response.json())
-            .then(products => {
-                const productGrid = document.getElementById('productGrid');
-                products.forEach(product => {
-                    const productCard = document.createElement('div');
-                    productCard.className = 'product-card';
-                    productCard.innerHTML = `
-                        <img src="${product.mainImage}" alt="${product.title}" class="product-image">
-                        <h3>${product.title}</h3>
-                        <p class="price">${product.price}</p>
-                        <p class="description">${product.description}</p>
-                        <button class="snipcart-add-item"
-                            data-item-id="${product.slug}"
-                            data-item-price="${product.price.replace('$', '')}"
-                            data-item-url="/"
-                            data-item-description="${product.description}"
-                            data-item-image="${product.mainImage}"
-                            data-item-name="${product.title}">
-                            Add to Cart
-                        </button>
-                    `;
-                    productCard.addEventListener('click', () => {
-                        window.location.href = `/product/${product.slug}`;
-                    });
-                    productGrid.appendChild(productCard);
-                });
-            });
-    </script>
 </body>
 </html> 
