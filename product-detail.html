@@ -12,6 +12,8 @@
     <script src="https://cdn.snipcart.com/themes/v3.3.1/default/snipcart.js" defer></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.1/default/snipcart.css" />
     <script src="mobile-menu.js" defer></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
 </head>
 <body>
     <div hidden id="snipcart" data-api-key="YOUR_API_KEY" data-config-modal-style="side"></div>
@@ -160,6 +162,99 @@
             tempButton.click();
             form.removeChild(tempButton);
         });
+
+        // Función para cargar los detalles del producto desde Google Sheets
+        function loadProductDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (!productId) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const spreadsheetId = 'TU_SPREADSHEET_ID'; // Reemplazar con el ID de tu hoja de cálculo
+            const apiKey = 'TU_API_KEY'; // Reemplazar con tu API key de Google Sheets
+            
+            fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Products!A2:H?key=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    const products = data.values.map(row => ({
+                        id: row[0],
+                        name: row[1],
+                        price: row[2],
+                        description: row[3],
+                        image: row[4],
+                        image_alt1: row[5],
+                        image_alt2: row[6],
+                        size_options: row[7] ? row[7].split('|') : [],
+                        material_options: row[8] ? row[8].split('|') : []
+                    }));
+
+                    const product = products.find(p => p.id === productId);
+                    
+                    if (!product) {
+                        window.location.href = 'index.html';
+                        return;
+                    }
+
+                    // Actualizar la información del producto en la página
+                    document.querySelector('.product-title').textContent = product.name;
+                    document.querySelector('.product-price').textContent = `$${product.price}`;
+                    document.querySelector('.product-description').textContent = product.description;
+                    
+                    // Actualizar imágenes
+                    const mainImage = document.getElementById('mainImage');
+                    const thumbnails = document.querySelectorAll('.thumbnail');
+                    
+                    mainImage.src = product.image;
+                    mainImage.alt = product.name;
+                    
+                    thumbnails[0].src = product.image;
+                    thumbnails[0].alt = `${product.name} - Vista 1`;
+                    thumbnails[1].src = product.image_alt1;
+                    thumbnails[1].alt = `${product.name} - Vista 2`;
+                    thumbnails[2].src = product.image_alt2;
+                    thumbnails[2].alt = `${product.name} - Vista 3`;
+
+                    // Actualizar opciones de tamaño
+                    const sizeSelect = document.getElementById('size');
+                    sizeSelect.innerHTML = '<option value="">Select size</option>';
+                    product.size_options.forEach(size => {
+                        const option = document.createElement('option');
+                        option.value = size.toLowerCase();
+                        option.textContent = size;
+                        sizeSelect.appendChild(option);
+                    });
+
+                    // Actualizar opciones de material
+                    const materialSelect = document.getElementById('material');
+                    materialSelect.innerHTML = '<option value="">Select material</option>';
+                    product.material_options.forEach(material => {
+                        const option = document.createElement('option');
+                        option.value = material.toLowerCase();
+                        option.textContent = material;
+                        materialSelect.appendChild(option);
+                    });
+
+                    // Actualizar botón de Snipcart
+                    const addToCartButton = document.querySelector('.add-to-cart-button');
+                    addToCartButton.setAttribute('data-item-id', product.id);
+                    addToCartButton.setAttribute('data-item-price', product.price);
+                    addToCartButton.setAttribute('data-item-name', product.name);
+                    addToCartButton.setAttribute('data-item-description', product.description);
+                    addToCartButton.setAttribute('data-item-image', product.image);
+                    addToCartButton.setAttribute('data-item-custom1-options', product.size_options.join('|'));
+                    addToCartButton.setAttribute('data-item-custom2-options', product.material_options.join('|'));
+                })
+                .catch(error => {
+                    console.error('Error loading product details:', error);
+                    window.location.href = 'index.html';
+                });
+        }
+
+        // Cargar detalles del producto cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', loadProductDetails);
     </script>
 </body>
 </html> 

@@ -143,5 +143,50 @@
 
     <script src="https://cdn.snipcart.com/themes/v3.3.1/default/snipcart.js"></script>
     <script src="js/products.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script>
+        // Función para cargar los productos desde Google Sheets
+        function loadProducts() {
+            const spreadsheetId = 'TU_SPREADSHEET_ID'; // Reemplazar con el ID de tu hoja de cálculo
+            const apiKey = 'TU_API_KEY'; // Reemplazar con tu API key de Google Sheets
+            
+            fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Products!A2:H?key=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    const products = data.values.map(row => ({
+                        id: row[0],
+                        name: row[1],
+                        price: row[2],
+                        description: row[3],
+                        image: row[4],
+                        image_alt1: row[5],
+                        image_alt2: row[6],
+                        size_options: row[7] ? row[7].split('|') : [],
+                        material_options: row[8] ? row[8].split('|') : []
+                    }));
+
+                    const productGrid = document.querySelector('.product-grid');
+                    productGrid.innerHTML = ''; // Limpiar el grid existente
+
+                    products.forEach(product => {
+                        const productCard = document.createElement('a');
+                        productCard.href = `product-detail.html?id=${product.id}`;
+                        productCard.className = 'product-card';
+                        productCard.innerHTML = `
+                            <img src="${product.image}" alt="${product.name}" class="product-image">
+                            <h3>${product.name}</h3>
+                            <p class="price">$${product.price}</p>
+                            <p class="description">${product.description}</p>
+                        `;
+                        productGrid.appendChild(productCard);
+                    });
+                })
+                .catch(error => console.error('Error loading products:', error));
+        }
+
+        // Cargar productos cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
 </body>
 </html> 
