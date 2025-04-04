@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+H2: Pequeña|Mediana|Grande
+I2: Plata|Oro<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +15,7 @@
 <body>
     <script>
         window.SnipcartSettings = {
-            publicApiKey: "YOUR_API_KEY",
+            publicApiKey: "ZDVjZDM3NzItOThjZC00NzM5LWJkMjAtYzg0NGYyNjZlNzM2NjM4MjA5NzU1OTk3MTY1OTc4",
             loadStrategy: "on-user-interaction",
         };
 
@@ -73,29 +74,7 @@
                     <div class="col sqs-col-12 span-12">
                         <h2>Products</h2>
                         <div class="product-grid">
-                            <!-- Product 1 -->
-                            <a href="product-detail.html" class="product-card">
-                                <img src="images/product1.jpg" alt="Ejemplo 1" class="product-image">
-                                <h3>Ejemplo 1</h3>
-                                <p class="price">$89.00</p>
-                                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </a>
-
-                            <!-- Product 2 -->
-                            <a href="product-detail.html" class="product-card">
-                                <img src="images/product2.jpg" alt="Ejemplo 2" class="product-image">
-                                <h3>Ejemplo 2</h3>
-                                <p class="price">$75.00</p>
-                                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </a>
-
-                            <!-- Product 3 -->
-                            <a href="product-detail.html" class="product-card">
-                                <img src="images/product3.jpg" alt="Ejemplo 3" class="product-image">
-                                <h3>Ejemplo 3</h3>
-                                <p class="price">$120.00</p>
-                                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </a>
+                            <!-- Los productos se cargarán dinámicamente desde Google Sheets -->
                         </div>
                     </div>
                 </div>
@@ -148,24 +127,38 @@
     <script>
         // Función para cargar los productos desde Google Sheets
         function loadProducts() {
-            const spreadsheetId = 'TU_SPREADSHEET_ID'; // Reemplazar con el ID de tu hoja de cálculo
-            const apiKey = 'TU_API_KEY'; // Reemplazar con tu API key de Google Sheets
+            const spreadsheetId = '1KzIPpJlIy0YNEHt1_zh21rVUg-d1RaV05rf81VSsozk';
+            const apiKey = 'AIzaSyDvjzmmIBerLK4rIiXZbwGsQrzYVPT42m4';
             
-            fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Products!A2:H?key=${apiKey}`)
-                .then(response => response.json())
+            console.log('Cargando productos...');
+            fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Products!A2:I?key=${apiKey}`)
+                .then(response => {
+                    console.log('Respuesta recibida:', response);
+                    return response.json();
+                })
                 .then(data => {
-                    const products = data.values.map(row => ({
-                        id: row[0],
-                        name: row[1],
-                        price: row[2],
-                        description: row[3],
-                        image: row[4],
-                        image_alt1: row[5],
-                        image_alt2: row[6],
-                        size_options: row[7] ? row[7].split('|') : [],
-                        material_options: row[8] ? row[8].split('|') : []
-                    }));
+                    console.log('Datos recibidos:', data);
+                    if (!data.values || data.values.length === 0) {
+                        console.error('No hay datos en la hoja de cálculo');
+                        return;
+                    }
 
+                    const products = data.values.map(row => {
+                        console.log('Procesando fila:', row);
+                        return {
+                            id: row[0],
+                            nombre: row[1],
+                            precio: row[2],
+                            descripcion: row[3],
+                            imagen: row[4],
+                            imagen_alt1: row[5],
+                            imagen_alt2: row[6],
+                            size_options: row[7] ? row[7].split('|') : [],
+                            material_options: row[8] ? row[8].split('|') : []
+                        };
+                    });
+
+                    console.log('Productos procesados:', products);
                     const productGrid = document.querySelector('.product-grid');
                     productGrid.innerHTML = ''; // Limpiar el grid existente
 
@@ -174,15 +167,19 @@
                         productCard.href = `product-detail.html?id=${product.id}`;
                         productCard.className = 'product-card';
                         productCard.innerHTML = `
-                            <img src="${product.image}" alt="${product.name}" class="product-image">
-                            <h3>${product.name}</h3>
-                            <p class="price">$${product.price}</p>
-                            <p class="description">${product.description}</p>
+                            <img src="${product.imagen}" alt="${product.nombre}" class="product-image">
+                            <h3>${product.nombre}</h3>
+                            <p class="price">$${product.precio}</p>
+                            <p class="description">${product.descripcion}</p>
                         `;
                         productGrid.appendChild(productCard);
                     });
                 })
-                .catch(error => console.error('Error loading products:', error));
+                .catch(error => {
+                    console.error('Error loading products:', error);
+                    const productGrid = document.querySelector('.product-grid');
+                    productGrid.innerHTML = '<p class="error">Error al cargar los productos. Por favor, inténtalo de nuevo más tarde.</p>';
+                });
         }
 
         // Cargar productos cuando la página esté lista

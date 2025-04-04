@@ -173,20 +173,20 @@
                 return;
             }
 
-            const spreadsheetId = 'TU_SPREADSHEET_ID'; // Reemplazar con el ID de tu hoja de cálculo
-            const apiKey = 'TU_API_KEY'; // Reemplazar con tu API key de Google Sheets
+            const spreadsheetId = '1KzIPpJlIy0YNEHt1_zh21rVUg-d1RaV05rf81VSsozk';
+            const apiKey = 'AIzaSyDvjzmmIBerLK4rIiXZbwGsQrzYVPT42m4';
             
             fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Products!A2:H?key=${apiKey}`)
                 .then(response => response.json())
                 .then(data => {
                     const products = data.values.map(row => ({
                         id: row[0],
-                        name: row[1],
-                        price: row[2],
-                        description: row[3],
-                        image: row[4],
-                        image_alt1: row[5],
-                        image_alt2: row[6],
+                        nombre: row[1],
+                        precio: row[2],
+                        descripcion: row[3],
+                        imagen: row[4],
+                        imagen_alt1: row[5],
+                        imagen_alt2: row[6],
                         size_options: row[7] ? row[7].split('|') : [],
                         material_options: row[8] ? row[8].split('|') : []
                     }));
@@ -199,23 +199,23 @@
                     }
 
                     // Actualizar la información del producto en la página
-                    document.querySelector('.product-title').textContent = product.name;
-                    document.querySelector('.product-price').textContent = `$${product.price}`;
-                    document.querySelector('.product-description').textContent = product.description;
+                    document.querySelector('.product-title').textContent = product.nombre;
+                    document.querySelector('.product-price').textContent = `$${product.precio}`;
+                    document.querySelector('.product-description').textContent = product.descripcion;
                     
                     // Actualizar imágenes
                     const mainImage = document.getElementById('mainImage');
                     const thumbnails = document.querySelectorAll('.thumbnail');
                     
-                    mainImage.src = product.image;
-                    mainImage.alt = product.name;
+                    mainImage.src = product.imagen;
+                    mainImage.alt = product.nombre;
                     
-                    thumbnails[0].src = product.image;
-                    thumbnails[0].alt = `${product.name} - Vista 1`;
-                    thumbnails[1].src = product.image_alt1;
-                    thumbnails[1].alt = `${product.name} - Vista 2`;
-                    thumbnails[2].src = product.image_alt2;
-                    thumbnails[2].alt = `${product.name} - Vista 3`;
+                    thumbnails[0].src = product.imagen;
+                    thumbnails[0].alt = `${product.nombre} - Vista 1`;
+                    thumbnails[1].src = product.imagen_alt1;
+                    thumbnails[1].alt = `${product.nombre} - Vista 2`;
+                    thumbnails[2].src = product.imagen_alt2;
+                    thumbnails[2].alt = `${product.nombre} - Vista 3`;
 
                     // Actualizar opciones de tamaño
                     const sizeSelect = document.getElementById('size');
@@ -240,10 +240,10 @@
                     // Actualizar botón de Snipcart
                     const addToCartButton = document.querySelector('.add-to-cart-button');
                     addToCartButton.setAttribute('data-item-id', product.id);
-                    addToCartButton.setAttribute('data-item-price', product.price);
-                    addToCartButton.setAttribute('data-item-name', product.name);
-                    addToCartButton.setAttribute('data-item-description', product.description);
-                    addToCartButton.setAttribute('data-item-image', product.image);
+                    addToCartButton.setAttribute('data-item-price', product.precio);
+                    addToCartButton.setAttribute('data-item-name', product.nombre);
+                    addToCartButton.setAttribute('data-item-description', product.descripcion);
+                    addToCartButton.setAttribute('data-item-image', product.imagen);
                     addToCartButton.setAttribute('data-item-custom1-options', product.size_options.join('|'));
                     addToCartButton.setAttribute('data-item-custom2-options', product.material_options.join('|'));
                 })
