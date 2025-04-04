@@ -140,9 +140,10 @@ h3 {
 }
 
 .product-section {
-    padding: 0 2rem 4rem;
+    padding: 40px 2rem 4rem;
     max-width: 1200px;
     margin: 0 auto;
+    min-height: calc(100vh - 120px);
 }
 
 .product-section h2, .about-section h2, .contact-section h2 {
@@ -184,7 +185,8 @@ h3 {
 /* Main content */
 #pageWrapper {
     margin-top: 80px;
-    padding: var(--spacing-xl) 0;
+    padding: 0;
+    min-height: calc(100vh - 80px);
 }
 
 .sqs-layout {
