@@ -197,7 +197,7 @@
 
                     // Actualizar la información del producto
                     document.querySelector('.product-title').textContent = product.nombre;
-                    document.querySelector('.product-price').textContent = `$${product.precio}`;
+                    document.querySelector('.product-price').textContent = `€${product.precio}`;
                     document.querySelector('.product-description').textContent = product.descripcion;
                     document.getElementById('mainImage').src = product.imagen;
                     document.querySelectorAll('.thumbnail')[0].src = product.imagen;
