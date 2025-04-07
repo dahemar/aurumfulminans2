@@ -49,10 +49,8 @@
                 <div class="main-image">
                     <img src="images/product1.jpg" alt="Product main view" id="mainImage">
                 </div>
-                <div class="thumbnail-images">
-                    <img src="images/product1.jpg" alt="Product view 1" class="thumbnail active">
-                    <img src="images/product1-alt1.jpg" alt="Product view 2" class="thumbnail">
-                    <img src="images/product1-alt2.jpg" alt="Product view 3" class="thumbnail">
+                <div class="thumbnail-images" id="thumbnailContainer">
+                    <!-- Las miniaturas se generarán dinámicamente -->
                 </div>
             </div>
 
@@ -62,19 +60,16 @@
                 <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                 
                 <form class="product-options" id="productForm">
-                    <div class="option-group">
+                    <div class="option-group" id="sizeGroup">
                         <label for="size">Size</label>
-                        <select id="size" name="size" required>
+                        <select id="size" name="size">
                             <option value="">Select size</option>
-                            <option value="small">Small</option>
-                            <option value="medium">Medium</option>
-                            <option value="large">Large</option>
                         </select>
                     </div>
 
-                    <div class="option-group">
+                    <div class="option-group" id="materialGroup">
                         <label for="material">Material</label>
-                        <select id="material" name="material" required>
+                        <select id="material" name="material">
                             <option value="">Select material</option>
                         </select>
                     </div>
@@ -85,10 +80,7 @@
                         data-item-url="https://your-domain.com/product-detail.html"
                         data-item-description="Lorem ipsum dolor sit amet"
                         data-item-image="images/product1.jpg"
-                        data-item-name="Ejemplo 1"
-                        data-item-custom1-name="Size"
-                        data-item-custom1-options="Small|Medium|Large"
-                        data-item-custom2-name="Material">
+                        data-item-name="Ejemplo 1">
                         Add to Cart
                     </button>
                 </form>
@@ -199,8 +191,8 @@
                         imagen: row[4],
                         imagen_alt1: row[5],
                         imagen_alt2: row[6],
-                        size_options: row[7] ? row[7].split('|') : [],
-                        material_options: row[8] ? row[8].split('|') : []
+                        size_options: row[7] ? row[7].split('|').filter(opt => opt.trim() !== '') : [],
+                        material_options: row[8] ? row[8].split('|').filter(opt => opt.trim() !== '') : []
                     }));
 
                     const product = products.find(p => p.id === productId);
@@ -214,14 +206,45 @@
                     document.querySelector('.product-title').textContent = product.nombre;
                     document.querySelector('.product-price').textContent = `€${product.precio}`;
                     document.querySelector('.product-description').textContent = product.descripcion;
-                    document.getElementById('mainImage').src = product.imagen;
-                    document.querySelectorAll('.thumbnail')[0].src = product.imagen;
-                    document.querySelectorAll('.thumbnail')[1].src = product.imagen_alt1;
-                    document.querySelectorAll('.thumbnail')[2].src = product.imagen_alt2;
+                    
+                    // Configurar la galería de imágenes
+                    const mainImage = document.getElementById('mainImage');
+                    const thumbnailContainer = document.getElementById('thumbnailContainer');
+                    thumbnailContainer.innerHTML = ''; // Limpiar miniaturas existentes
+
+                    // Array de imágenes disponibles
+                    const availableImages = [
+                        { src: product.imagen, alt: `${product.nombre} - Vista principal` },
+                        { src: product.imagen_alt1, alt: `${product.nombre} - Vista alternativa 1` },
+                        { src: product.imagen_alt2, alt: `${product.nombre} - Vista alternativa 2` }
+                    ].filter(img => img.src && img.src.trim() !== ''); // Filtrar imágenes vacías
+
+                    if (availableImages.length > 0) {
+                        // Establecer la imagen principal
+                        mainImage.src = availableImages[0].src;
+                        mainImage.alt = availableImages[0].alt;
+
+                        // Crear miniaturas solo si hay más de una imagen
+                        if (availableImages.length > 1) {
+                            availableImages.forEach((img, index) => {
+                                const thumbnail = document.createElement('img');
+                                thumbnail.src = img.src;
+                                thumbnail.alt = img.alt;
+                                thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                                thumbnail.addEventListener('click', () => {
+                                    mainImage.src = img.src;
+                                    mainImage.alt = img.alt;
+                                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                                    thumbnail.classList.add('active');
+                                });
+                                thumbnailContainer.appendChild(thumbnail);
+                            });
+                        }
+                    }
 
                     // Actualizar las opciones de tamaño
                     const sizeSelect = document.getElementById('size');
-                    const sizeGroup = sizeSelect.closest('.option-group');
+                    const sizeGroup = document.getElementById('sizeGroup');
                     if (product.size_options && product.size_options.length > 0) {
                         sizeSelect.innerHTML = '<option value="">Select size</option>';
                         product.size_options.forEach(size => {
@@ -231,13 +254,15 @@
                             sizeSelect.appendChild(option);
                         });
                         sizeGroup.style.display = 'block';
+                        sizeSelect.required = true;
                     } else {
                         sizeGroup.style.display = 'none';
+                        sizeSelect.required = false;
                     }
 
                     // Actualizar las opciones de material
                     const materialSelect = document.getElementById('material');
-                    const materialGroup = materialSelect.closest('.option-group');
+                    const materialGroup = document.getElementById('materialGroup');
                     if (product.material_options && product.material_options.length > 0) {
                         materialSelect.innerHTML = '<option value="">Select material</option>';
                         product.material_options.forEach(material => {
@@ -247,8 +272,10 @@
                             materialSelect.appendChild(option);
                         });
                         materialGroup.style.display = 'block';
+                        materialSelect.required = true;
                     } else {
                         materialGroup.style.display = 'none';
+                        materialSelect.required = false;
                     }
 
                     // Actualizar el botón de Add to Cart
